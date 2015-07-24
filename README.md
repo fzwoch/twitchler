@@ -1,8 +1,8 @@
 Twitchler
 =========
 
-A stupid attempt to watch Twitch.tv streams without your annoying
-laptop fan noise desperately trying to prevent a critical cpu meltdown.
+A stupid attempt to watch Twitch.tv streams without the annoying
+noise of your laptop fan desperately trying to prevent a critical cpu meltdown.
 
 Credits
 -------
