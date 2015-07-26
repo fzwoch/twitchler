@@ -47,7 +47,7 @@ GStreamer::GStreamer()
 #endif
 	
 	gst_registry_fork_set_enabled(FALSE);
-	gst_init(NULL, NULL);
+	gst_init(&wxTheApp->argc, (char***)&wxTheApp->argv);
 }
 
 GStreamer::~GStreamer()
