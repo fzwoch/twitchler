@@ -37,6 +37,7 @@ myFrame::myFrame()
 	
 	m_url->SetHint("Twitch channel name you want to view");
 	
+	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
 	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_volume->Bind(wxEVT_SCROLL_THUMBTRACK, &myApp::OnVolumeSlider, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
@@ -75,7 +76,7 @@ int myFrame::GetVolume()
 	return m_volume->GetValue();
 }
 
-void myFrame::OnToggleFullScreen()
+void myFrame::OnToggleFullScreen(wxEvent &event)
 {
 	if (IsFullScreen())
 	{

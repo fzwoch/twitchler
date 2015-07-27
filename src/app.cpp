@@ -43,17 +43,11 @@ bool myApp::OnInit()
 
 int myApp::FilterEvent(wxEvent &event)
 {
-	if (event.GetEventType() == wxEVT_LEFT_DCLICK)
-	{
-		m_frame->OnToggleFullScreen();
-		
-		return true;
-	}
-	else if (event.GetEventType() == wxEVT_KEY_DOWN && ((wxKeyEvent&)event).GetKeyCode() == WXK_ESCAPE)
+	if (event.GetEventType() == wxEVT_KEY_DOWN && ((wxKeyEvent&)event).GetKeyCode() == WXK_ESCAPE)
 	{
 		if (m_frame->IsFullScreen())
 		{
-			m_frame->OnToggleFullScreen();
+			m_frame->OnToggleFullScreen(event);
 		}
 		
 		return true;

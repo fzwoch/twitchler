@@ -37,7 +37,7 @@ public:
 	
 	wxString GetChannelName();
 	int GetVolume();
-	void OnToggleFullScreen();
+	void OnToggleFullScreen(wxEvent &event);
 };
 
 #endif // __GUI_H__
