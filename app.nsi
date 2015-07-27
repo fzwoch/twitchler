@@ -66,11 +66,13 @@ Section
 	File "c:\gstreamer\1.0\x86\bin\libxml2-2.dll"
 	File "c:\gstreamer\1.0\x86\bin\libz.dll"
 
-	WriteUninstaller "$INSTDIR\uninstall.exe"
+	SetShellVarContext all
 
 	CreateDirectory "$SMPROGRAMS\Twitchler"
 	CreateShortCut  "$SMPROGRAMS\Twitchler\Twitchler.lnk" "$INSTDIR\twitchler.exe"
 	CreateShortCut  "$SMPROGRAMS\Twitchler\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+
+	WriteUninstaller "$INSTDIR\uninstall.exe"
 
 	SetOutPath "$INSTDIR\gstreamer-1.0"
 
@@ -98,11 +100,8 @@ Section
 SectionEnd
 
 Section "Uninstall"
-	Delete "$SMPROGRAMS\Twitchler\*"
-	RMDIR  "$SMPROGRAMS\Twitchler"
+	SetShellVarContext all
 
-	Delete "$INSTDIR\gstreamer-1.0\*"
-	RMDir  "$INSTDIR\gstreamer-1.0"
-	Delete "$INSTDIR\*"
-	RMDir  "$INSTDIR"
+	RMDir /r "$SMPROGRAMS\Twitchler"
+	RMDir /r "$INSTDIR"
 SectionEnd
