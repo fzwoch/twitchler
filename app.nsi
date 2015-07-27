@@ -66,6 +66,12 @@ Section
 	File "c:\gstreamer\1.0\x86\bin\libxml2-2.dll"
 	File "c:\gstreamer\1.0\x86\bin\libz.dll"
 
+	WriteUninstaller "$INSTDIR\uninstall.exe"
+
+	CreateDirectory "$SMPROGRAMS\Twitchler"
+	CreateShortCut  "$SMPROGRAMS\Twitchler\Twitchler.lnk" "$INSTDIR\twitchler.exe"
+	CreateShortCut  "$SMPROGRAMS\Twitchler\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+
 	SetOutPath "$INSTDIR\gstreamer-1.0"
 
 	File "c:\gstreamer\1.0\x86\lib\gstreamer-1.0\libgstaudioconvert.dll"
@@ -89,12 +95,6 @@ Section
 	File "c:\gstreamer\1.0\x86\lib\gstreamer-1.0\libgstvideoparsersbad.dll"
 	File "c:\gstreamer\1.0\x86\lib\gstreamer-1.0\libgstvideoscale.dll"
 	File "c:\gstreamer\1.0\x86\lib\gstreamer-1.0\libgstvolume.dll"
-
-	WriteUninstaller "$INSTDIR\uninstall.exe"
-
-	CreateDirectory "$SMPROGRAMS\Twitchler"
-	CreateShortCut  "$SMPROGRAMS\Twitchler\Twitchler.lnk" "$INSTDIR\twitchler.exe"
-	CreateShortCut  "$SMPROGRAMS\Twitchler\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 SectionEnd
 
 Section "Uninstall"
