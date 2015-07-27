@@ -27,7 +27,7 @@ Section
 	File "twitchler.exe"
 
 	File "c:\windows\syswow64\msvcp120.dll"
-	File "c:\windows\syswow64\msvcp120.dll"
+	File "c:\windows\syswow64\msvcr120.dll"
 
 	File "c:\wxwidgets\lib\vc120_dll\wxbase30u_vc120.dll"
 	File "c:\wxwidgets\lib\vc120_dll\wxbase30u_net_vc120.dll"
@@ -93,15 +93,15 @@ Section
 	WriteUninstaller "$INSTDIR\uninstall.exe"
 
 	CreateDirectory "$SMPROGRAMS\Twitchler"
-	CreateShortCut  "$SMPROGRAMS\Twitchler.lnk" "$INSTDIR\twitchler.exe"
-	CreateShortCut  "$SMPROGRAMS\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+	CreateShortCut  "$SMPROGRAMS\Twitchler\Twitchler.lnk" "$INSTDIR\twitchler.exe"
+	CreateShortCut  "$SMPROGRAMS\Twitchler\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 SectionEnd
 
 Section "Uninstall"
 	Delete "$SMPROGRAMS\Twitchler\*"
 	RMDIR  "$SMPROGRAMS\Twitchler"
 
-	Delete "$INSTDIR\gstreamer-1.0\*
+	Delete "$INSTDIR\gstreamer-1.0\*"
 	RMDir  "$INSTDIR\gstreamer-1.0"
 	Delete "$INSTDIR\*"
 	RMDir  "$INSTDIR"
