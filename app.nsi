@@ -17,21 +17,27 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+!include "MUI2.nsh"
+
 Name "Twitchler"
 Outfile "TwitchlerSetup.exe"
 InstallDir "$PROGRAMFILES\Twitchler"
+
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
 
 Section
 	SetOutPath "$INSTDIR"
 
 	File "twitchler.exe"
+	File "LICENSE"
 
 	File "c:\windows\syswow64\msvcp120.dll"
 	File "c:\windows\syswow64\msvcr120.dll"
 
-	File "c:\wxwidgets\lib\vc120_dll\wxbase30u_vc120.dll"
-	File "c:\wxwidgets\lib\vc120_dll\wxbase30u_net_vc120.dll"
-	File "c:\wxwidgets\lib\vc120_dll\wxmsw30u_core_vc120.dll"
+	File "c:\windows\syswow64\wxbase30u_vc120.dll"
+	File "c:\windows\syswow64\wxbase30u_net_vc120.dll"
+	File "c:\windows\syswow64\wxmsw30u_core_vc120.dll"
 
 	File "c:\gstreamer\1.0\x86\bin\libbz2.dll"
 	File "c:\gstreamer\1.0\x86\bin\libfaad-2.dll"
@@ -66,7 +72,7 @@ Section
 	File "c:\gstreamer\1.0\x86\bin\libxml2-2.dll"
 	File "c:\gstreamer\1.0\x86\bin\libz.dll"
 
-	SetShellVarContext all
+	SetShellVarContext "all"
 
 	CreateDirectory "$SMPROGRAMS\Twitchler"
 	CreateShortCut  "$SMPROGRAMS\Twitchler\Twitchler.lnk" "$INSTDIR\twitchler.exe"
@@ -100,7 +106,7 @@ Section
 SectionEnd
 
 Section "Uninstall"
-	SetShellVarContext all
+	SetShellVarContext "all"
 
 	RMDir /r "$SMPROGRAMS\Twitchler"
 	RMDir /r "$INSTDIR"
