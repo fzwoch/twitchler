@@ -30,6 +30,7 @@ myFrame::myFrame()
 	
 	m_control->SetBackgroundColour(m_panel->GetBackgroundColour());
 	m_panel->SetBackgroundColour(wxColour(*wxBLACK));
+	m_video->SetBackgroundColour(wxColour(*wxBLACK));
 	
 	m_url = new wxTextCtrl(m_control, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	m_start = new wxButton(m_control, wxID_ANY, "Start");
