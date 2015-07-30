@@ -49,6 +49,6 @@ solution "Twitchler"
 			libdirs { "C:/wxWidgets/lib/vc120_dll", "C:/GStreamer/1.0/x86/lib" }
 			links { "gmodule-2.0.lib", "gio-2.0.lib", "gstvideo-1.0.lib", "glib-2.0.lib", "gstreamer-1.0.lib", "gobject-2.0.lib" }
 
-		configuration "macosx"
+		configuration "not windows"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
 			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0`" }
