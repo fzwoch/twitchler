@@ -25,7 +25,6 @@
 
 class GStreamer
 {
-	guint m_bus_watch_id;
 	GstElement *m_pipeline;
 	
 public:

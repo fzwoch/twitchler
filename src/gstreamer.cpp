@@ -86,7 +86,7 @@ bool GStreamer::StartStream(wxString url, guintptr window_id)
 	gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(m_pipeline), window_id);
 	
 	bus = gst_pipeline_get_bus(GST_PIPELINE(m_pipeline));
-	m_bus_watch_id = gst_bus_add_watch (bus, bus_callback, NULL);
+	gst_bus_add_watch (bus, bus_callback, NULL);
 	gst_object_unref(bus);
 	
 	gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
@@ -105,8 +105,6 @@ void GStreamer::StopStream()
 	
 	gst_object_unref(m_pipeline);
 	m_pipeline = NULL;
-	
-	g_source_remove(m_bus_watch_id);
 }
 
 void GStreamer::SetVolume(gdouble volume)
