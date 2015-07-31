@@ -20,18 +20,18 @@
 solution "Twitchler"
 	configurations { "debug", "release" }
 
-	configuration "debug"
+	filter "configurations:debug"
 		flags "symbols"
 
-	configuration "release"
+	filter "configurations:release"
 		optimize "full"
 
-	configuration "windows"
+	filter "system:windows"
 		toolset "msc"
 		architecture "x86"
 		flags "unicode"
 
-	configuration "macosx"
+	filter "system:macosx"
 		toolset "clang"
 		architecture "x86_64"
 
@@ -41,7 +41,7 @@ solution "Twitchler"
 		files "src/*.cpp"
 		includedirs "include"
 
-		configuration "windows"
+		filter "system:windows"
 			defines { "WXUSINGDLL", "wxMSVC_VERSION_AUTO", "_CRT_SECURE_NO_WARNINGS", "WXMAKINGDLL_JSON" }
 			includedirs { "C:/wxWidgets/include/msvc", "C:/wxWidgets/include" }
 			includedirs { "C:/GStreamer/1.0/x86/include/gstreamer-1.0", "C:/GStreamer/1.0/x86/include/glib-2.0" }
@@ -49,6 +49,10 @@ solution "Twitchler"
 			libdirs { "C:/wxWidgets/lib/vc120_dll", "C:/GStreamer/1.0/x86/lib" }
 			links { "gmodule-2.0.lib", "gio-2.0.lib", "gstvideo-1.0.lib", "glib-2.0.lib", "gstreamer-1.0.lib", "gobject-2.0.lib" }
 
-		configuration "not windows"
+		filter "system:macosx"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
 			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0`" }
+
+		filter "system:linux"
+			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0`" }
+			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0`" }
