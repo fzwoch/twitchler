@@ -30,6 +30,11 @@
 #include <wx/protocol/http.h>
 #include <wx/jsonreader.h>
 
+#ifdef __WXGTK__
+#include <gtk/gtk.h>
+#include <gdk/gdkx.h>
+#endif
+
 bool myApp::OnInit()
 {
 	m_frame = new myFrame();
@@ -112,8 +117,14 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	token.Replace("\"", "%22");
 	token.Replace("{", "%7b");
 	token.Replace("}", "%7d");
-	
-	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, (guintptr)myFrame::FindWindowByName("video")->GetHandle());
+
+#ifdef __WXGTK__
+	guintptr window_id = GDK_WINDOW_XID(gtk_widget_get_window(myFrame::FindWindowByName("video")->GetHandle()));
+#else
+	guintptr window_id = (guintptr)myFrame::FindWindowByName("video")->GetHandle();
+#endif
+
+	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id);
 	
 	if (res == false)
 	{
