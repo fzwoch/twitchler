@@ -39,6 +39,7 @@ public:
 	void OnVolumeSlider(wxScrollEvent &event);
 	void OnGStreamerError();
 	void OnGStreamerEos();
+	void OnCloseEvent(wxCloseEvent &event);
 };
 
 #endif // __APP_H__

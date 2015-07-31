@@ -154,6 +154,13 @@ void myApp::OnGStreamerEos()
 	m_gstreamer.StopStream();
 }
 
+void myApp::OnCloseEvent(wxCloseEvent &event)
+{
+	m_gstreamer.StopStream();
+	
+	m_frame->Destroy();
+}
+
 int main(int argc, char *argv[])
 {
 	wxDISABLE_DEBUG_SUPPORT();

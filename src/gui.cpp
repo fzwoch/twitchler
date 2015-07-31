@@ -38,6 +38,7 @@ myFrame::myFrame()
 	
 	m_url->SetHint("Twitch channel name you want to view");
 	
+	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
 	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
