@@ -24,6 +24,7 @@ solution "Twitchler"
 		flags "symbols"
 
 	filter "configurations:release"
+		defines "NDEBUG"
 		optimize "full"
 
 	filter "system:windows"
