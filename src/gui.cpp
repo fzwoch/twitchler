@@ -39,7 +39,7 @@ myFrame::myFrame()
 	
 	m_url->SetHint("Twitch channel name you want to view");
 	m_bitrate->SetToolTip("Bandwidth limit in kbps (0 = no limit)");
-	m_video->SetToolTip("Volume");
+	m_volume->SetToolTip("Volume");
 	
 	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
