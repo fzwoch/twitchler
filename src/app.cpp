@@ -107,6 +107,13 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 		return;
 	}
 	
+	if (!json["error"].IsValid())
+	{
+		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not get access token for channel '" + channel + "'");
+		msg->ShowModal();
+		return;
+	}
+	
 	delete http_stream;
 	
 	random = wxString::Format("%d", rand() % 999999);
