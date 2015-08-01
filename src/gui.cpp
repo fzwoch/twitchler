@@ -33,7 +33,7 @@ myFrame::myFrame()
 	m_video->SetBackgroundColour(wxColour(*wxBLACK));
 	
 	m_url = new wxTextCtrl(m_control, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-	m_bitrate = new wxSpinCtrl(m_control, wxID_ANY, "0", wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT, 0, 4000, 0);
+	m_bitrate = new wxSpinCtrl(m_control, wxID_ANY, "0", wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT | wxTE_PROCESS_ENTER, 0, 4000, 0);
 	m_start = new wxButton(m_control, wxID_ANY, "Start");
 	m_volume = new wxSlider(m_control, wxID_ANY, 1000, 0, 1000, wxDefaultPosition, wxSize(180, -1));
 	
@@ -43,8 +43,9 @@ myFrame::myFrame()
 	
 	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
-	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
+	m_bitrate->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
+	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_volume->Bind(wxEVT_SCROLL_THUMBTRACK, &myApp::OnVolumeSlider, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	
 	wxBoxSizer *control_sizer = new wxBoxSizer(wxHORIZONTAL);
