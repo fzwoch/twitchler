@@ -31,7 +31,7 @@ public:
 	GStreamer();
 	virtual ~GStreamer();
 	
-	bool StartStream(wxString url, guintptr window_id);
+	bool StartStream(wxString url, guintptr window_id, int bitrate, gdouble volume);
 	void StopStream();
 	
 	void SetVolume(gdouble volume);

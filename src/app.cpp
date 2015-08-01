@@ -124,7 +124,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	guintptr window_id = (guintptr)myFrame::FindWindowByName("video")->GetHandle();
 #endif
 
-	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id);
+	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);
 	
 	if (res == false)
 	{
@@ -132,8 +132,6 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 		msg->ShowModal();
 		return;
 	}
-	
-	m_gstreamer.SetVolume(m_frame->GetVolume() / 1000.0);
 }
 
 void myApp::OnVolumeSlider(wxScrollEvent &event)

@@ -21,6 +21,7 @@
 #define __GUI_H__
 
 #include <wx/wx.h>
+#include <wx/spinctrl.h>
 
 class myFrame: public wxFrame
 {
@@ -28,6 +29,7 @@ class myFrame: public wxFrame
 	wxPanel *m_video;
 	wxPanel *m_control;
 	wxTextCtrl *m_url;
+	wxSpinCtrl *m_bitrate;
 	wxButton *m_start;
 	wxSlider *m_volume;
 	
@@ -36,6 +38,7 @@ public:
 	virtual ~myFrame();
 	
 	wxString GetChannelName();
+	int GetBitrate();
 	int GetVolume();
 	void OnToggleFullScreen(wxEvent &event);
 };

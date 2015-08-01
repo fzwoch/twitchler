@@ -57,7 +57,7 @@ GStreamer::~GStreamer()
 	gst_deinit();
 }
 
-bool GStreamer::StartStream(wxString url, guintptr window_id)
+bool GStreamer::StartStream(wxString url, guintptr window_id, int bitrate, gdouble volume)
 {
 	GError *err = NULL;
 	GstBus *bus;
@@ -67,7 +67,7 @@ bool GStreamer::StartStream(wxString url, guintptr window_id)
 		StopStream();
 	}
 	
-	wxString description = "playbin uri=\"" + url + "\"";
+	wxString description = "playbin uri=\"" + url + "\" connection-speed=" + wxString::Format("%d", bitrate) + " volume=" + wxString::Format("%f", volume);
 	
 	m_pipeline = gst_parse_launch(description.mb_str(), &err);
 	if (err)

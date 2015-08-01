@@ -33,10 +33,13 @@ myFrame::myFrame()
 	m_video->SetBackgroundColour(wxColour(*wxBLACK));
 	
 	m_url = new wxTextCtrl(m_control, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	m_bitrate = new wxSpinCtrl(m_control, wxID_ANY, "0", wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT, 0, 4000, 0);
 	m_start = new wxButton(m_control, wxID_ANY, "Start");
 	m_volume = new wxSlider(m_control, wxID_ANY, 1000, 0, 1000, wxDefaultPosition, wxSize(180, -1));
 	
 	m_url->SetHint("Twitch channel name you want to view");
+	m_bitrate->SetToolTip("Bandwidth limit in kbps (0 = no limit)");
+	m_video->SetToolTip("Volume");
 	
 	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
@@ -47,6 +50,7 @@ myFrame::myFrame()
 	wxBoxSizer *control_sizer = new wxBoxSizer(wxHORIZONTAL);
 	
 	control_sizer->Add(m_url, 1, wxALL, 15);
+	control_sizer->Add(m_bitrate, 0, wxTOP | wxBOTTOM | wxRIGHT, 15);
 	control_sizer->Add(m_start, 0, wxTOP | wxBOTTOM, 15);
 	control_sizer->Add(m_volume, 0, wxALL | wxEXPAND, 15);
 	
@@ -71,6 +75,11 @@ myFrame::~myFrame()
 wxString myFrame::GetChannelName()
 {
 	return m_url->GetValue();
+}
+
+int myFrame::GetBitrate()
+{
+	return m_bitrate->GetValue();
 }
 
 int myFrame::GetVolume()
