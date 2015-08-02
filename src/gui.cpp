@@ -46,6 +46,7 @@ myFrame::myFrame()
 	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	m_volume->Bind(wxEVT_SCROLL_THUMBTRACK, &myApp::OnVolumeSlider, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
+	m_volume->Bind(wxEVT_SCROLL_CHANGED, &myApp::OnVolumeSlider, wxGetApp(), wxID_ANY, wxID_ANY, new wxVariant(this));
 	
 	wxBoxSizer *control_sizer = new wxBoxSizer(wxHORIZONTAL);
 	
