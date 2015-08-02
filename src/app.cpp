@@ -70,10 +70,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	wxString random;
 	wxString token;
 	
-	wxVariant *var = (wxVariant*)event.GetEventUserData();
-	myFrame *url_frame = (myFrame*)var->GetWxObjectPtr();
-	
-	wxString channel = url_frame->GetChannelName();
+	wxString channel = m_frame->GetChannelName();
 	
 	get.SetTimeout(5);
 	
