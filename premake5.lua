@@ -39,8 +39,9 @@ solution "Twitchler"
 	project "twitchler"
 		kind "WindowedApp"
 		language "C++"
-		files "src/*.cpp"
+		files "src/**.cpp"
 		includedirs "include"
+		links "curl"
 
 		filter "system:windows"
 			defines { "WXUSINGDLL", "wxMSVC_VERSION_AUTO", "_CRT_SECURE_NO_WARNINGS", "WXMAKINGDLL_JSON" }

@@ -27,6 +27,8 @@
 #undef MAX
 #endif
 
+#include <wx/curl/http.h>
+
 #include <wx/protocol/http.h>
 #include <wx/jsonreader.h>
 
@@ -42,6 +44,8 @@ bool myApp::OnInit()
 	m_frame->Show();
 	
 	srand(time(NULL));
+	
+	wxCurlBase::Init();
 	
 	return true;
 }
@@ -63,51 +67,66 @@ int myApp::FilterEvent(wxEvent &event)
 
 void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 {
-	wxHTTP get;
-	wxInputStream *http_stream;
+	wxCurlHTTP http_info;
+	wxCurlHTTP http;
+	char *buffer;
 	wxJSONReader parser;
 	wxJSONValue json;
 	wxString random;
 	wxString token;
 	
+	http_info.SetOpt(CURLOPT_TIMEOUT, 5);
+	http.SetOpt(CURLOPT_TIMEOUT, 5);
+	
 	wxString channel = m_frame->GetChannelName();
 	
-	get.SetTimeout(5);
-	
-	if (channel == "")
+	if (channel.IsEmpty())
 	{
-		wxLogError("Please enter a channel name");
+		wxLogMessage("Please enter a channel name");
 		return;
 	}
 	
-	if (get.Connect("api.twitch.tv") == false)
+	http_info.Get(buffer, "https://api.twitch.tv/kraken/streams/" + channel);
+	
+	if (http_info.GetResponseCode() != 200)
 	{
-		wxLogError("Could not connect to 'api.twitch.tv'");
+		wxLogError("Could not retrieve stream information for channel '" + channel + "'");
 		return;
 	}
 	
-	http_stream = get.GetInputStream("/api/channels/" + channel + "/access_token");
-	if (get.GetError() != wxPROTO_NOERR)
+	if (parser.Parse(wxString(buffer), &json) > 0)
+	{
+		free(buffer);
+		
+		wxLogError("Could not parse JSON stream information for channel '" + channel + "'");
+		return;
+	}
+	
+	free(buffer);
+	
+	if (json["stream"].IsNull())
+	{
+		wxLogMessage("Channel '" + channel + "' is offline");
+		return;
+	}
+	
+	http.Get(buffer, "http://api.twitch.tv/api/channels/" + channel + "/access_token");
+	
+	if (http.GetResponseCode() != 200)
 	{
 		wxLogError("Could not get access token for channel '" + channel + "'");
 		return;
 	}
 	
-	if (parser.Parse(*http_stream, &json) > 0)
+	if (parser.Parse(wxString(buffer), &json) > 0)
 	{
-		delete http_stream;
+		free(buffer);
 		
 		wxLogError("Could not parse JSON access token for channel '" + channel + "'");
 		return;
 	}
 	
-	if (!json["error"].IsValid())
-	{
-		wxLogError("Could not get access token for channel '" + channel + "'");
-		return;
-	}
-	
-	delete http_stream;
+	free(buffer);
 	
 	random = wxString::Format("%d", rand() % 999999);
 	token = json["token"].AsString();
@@ -117,13 +136,13 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	token.Replace("\"", "%22");
 	token.Replace("{", "%7b");
 	token.Replace("}", "%7d");
-
+	
 #ifdef __WXGTK__
 	guintptr window_id = GDK_WINDOW_XID(gtk_widget_get_window(myFrame::FindWindowByName("video")->GetHandle()));
 #else
 	guintptr window_id = (guintptr)myFrame::FindWindowByName("video")->GetHandle();
 #endif
-
+	
 	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);
 	
 	if (res == false)
