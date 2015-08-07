@@ -72,6 +72,12 @@ Section
 	File "c:\gstreamer\1.0\x86\bin\libxml2-2.dll"
 	File "c:\gstreamer\1.0\x86\bin\libz.dll"
 
+	File "c:\curl\bin\libcurl.dll"
+	File "c:\curl\bin\libeay32.dll"
+	File "c:\curl\bin\libidn-11.dll"
+	File "c:\curl\bin\ssleay32.dll"
+	File "c:\curl\bin\zlib1.dll"
+
 	SetShellVarContext "all"
 
 	CreateDirectory "$SMPROGRAMS\Twitchler"

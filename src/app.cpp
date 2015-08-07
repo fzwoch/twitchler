@@ -75,9 +75,6 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	wxString random;
 	wxString token;
 	
-	http_info.SetOpt(CURLOPT_TIMEOUT, 5);
-	http.SetOpt(CURLOPT_TIMEOUT, 5);
-	
 	wxString channel = m_frame->GetChannelName();
 	
 	if (channel.IsEmpty())

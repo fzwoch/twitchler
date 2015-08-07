@@ -294,6 +294,9 @@ bool wxCurlHTTP::Get(wxOutputStream& buffer, const wxString& szRemoteFile /*=wxE
 
         SetHeaders();
         SetOpt(CURLOPT_HTTPGET, TRUE);
+        SetOpt(CURLOPT_SSL_VERIFYPEER, FALSE);
+        SetOpt(CURLOPT_SSL_VERIFYHOST, FALSE);
+        SetOpt(CURLOPT_TIMEOUT, 5);
         SetStreamWriteFunction(buffer);
 
         if(Perform())

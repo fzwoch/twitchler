@@ -39,17 +39,21 @@ solution "Twitchler"
 	project "twitchler"
 		kind "WindowedApp"
 		language "C++"
-		files "src/**.cpp"
+		files { "src/**.cpp", "include/**.h" }
 		includedirs "include"
-		links "curl"
+
+		filter "not system:windows"
+			links "curl"
 
 		filter "system:windows"
-			defines { "WXUSINGDLL", "wxMSVC_VERSION_AUTO", "_CRT_SECURE_NO_WARNINGS", "WXMAKINGDLL_JSON" }
+			defines { "WXUSINGDLL", "wxMSVC_VERSION_AUTO", "_CRT_SECURE_NO_WARNINGS", "WXMAKINGDLL_JSON", "WXMAKINGDLL_WXCURL" }
 			includedirs { "C:/wxWidgets/include/msvc", "C:/wxWidgets/include" }
 			includedirs { "C:/GStreamer/1.0/x86/include/gstreamer-1.0", "C:/GStreamer/1.0/x86/include/glib-2.0" }
 			includedirs { "C:/GStreamer/1.0/x86/lib/gstreamer-1.0/include", "C:/GStreamer/1.0/x86/lib/glib-2.0/include" }
-			libdirs { "C:/wxWidgets/lib/vc120_dll", "C:/GStreamer/1.0/x86/lib" }
+			includedirs { "C:/curl/include" }
+			libdirs { "C:/wxWidgets/lib/vc120_dll", "C:/GStreamer/1.0/x86/lib", "C:/curl/lib" }
 			links { "gmodule-2.0.lib", "gio-2.0.lib", "gstvideo-1.0.lib", "glib-2.0.lib", "gstreamer-1.0.lib", "gobject-2.0.lib" }
+			links { "libcurldll.lib" }
 
 		filter "system:macosx"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
