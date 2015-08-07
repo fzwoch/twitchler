@@ -76,38 +76,34 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	
 	if (channel == "")
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Please enter a channel name");
-		msg->ShowModal();
+		wxLogError("Please enter a channel name");
 		return;
 	}
 	
 	if (get.Connect("api.twitch.tv") == false)
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not connect to 'api.twitch.tv'");
-		msg->ShowModal();
+		wxLogError("Could not connect to 'api.twitch.tv'");
 		return;
 	}
 	
 	http_stream = get.GetInputStream("/api/channels/" + channel + "/access_token");
 	if (get.GetError() != wxPROTO_NOERR)
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not get access token for channel '" + channel + "'");
-		msg->ShowModal();
+		wxLogError("Could not get access token for channel '" + channel + "'");
 		return;
 	}
 	
 	if (parser.Parse(*http_stream, &json) > 0)
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not parse JSON access token for channel '" + channel + "'");
-		msg->ShowModal();
 		delete http_stream;
+		
+		wxLogError("Could not parse JSON access token for channel '" + channel + "'");
 		return;
 	}
 	
 	if (!json["error"].IsValid())
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not get access token for channel '" + channel + "'");
-		msg->ShowModal();
+		wxLogError("Could not get access token for channel '" + channel + "'");
 		return;
 	}
 	
@@ -132,8 +128,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	
 	if (res == false)
 	{
-		wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "Could not start stream for channel '" + channel + "'");
-		msg->ShowModal();
+		wxLogError("Could not start stream for channel '" + channel + "'");
 		return;
 	}
 }
@@ -143,17 +138,20 @@ void myApp::OnVolumeSlider(wxScrollEvent &event)
 	m_gstreamer.SetVolume(event.GetPosition() / 1000.0);
 }
 
-void myApp::OnGStreamerError()
+void myApp::OnGStreamerError(GError *err)
 {
 	m_gstreamer.StopStream();
 	
-	wxMessageDialog *msg = new wxMessageDialog(GetTopWindow(), "GStreamer encountered an error");
-	msg->ShowModal();
+	wxLogError(wxString(err->message));
+	
+	g_error_free(err);
 }
 
 void myApp::OnGStreamerEos()
 {
 	m_gstreamer.StopStream();
+	
+	wxLogMessage("Stream went offline");
 }
 
 void myApp::OnCloseEvent(wxCloseEvent &event)

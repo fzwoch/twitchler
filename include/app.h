@@ -37,7 +37,7 @@ class myApp: public wxApp
 public:
 	void OnGetStreamingUrl(wxCommandEvent &event);
 	void OnVolumeSlider(wxScrollEvent &event);
-	void OnGStreamerError();
+	void OnGStreamerError(GError *err);
 	void OnGStreamerEos();
 	void OnCloseEvent(wxCloseEvent &event);
 };

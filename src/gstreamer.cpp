@@ -23,10 +23,18 @@
 
 static gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 {
+	GError *err = NULL;
+	
 	switch (GST_MESSAGE_TYPE(msg))
 	{
+		case GST_MESSAGE_WARNING:
+			gst_message_parse_warning(msg, &err, NULL);
+			wxLogWarning("%s", err->message);
+			g_error_free(err);
+			return TRUE;
 		case GST_MESSAGE_ERROR:
-			wxTheApp->CallAfter(&myApp::OnGStreamerError);
+			gst_message_parse_error(msg, &err, NULL);
+			wxTheApp->CallAfter(&myApp::OnGStreamerError, err);
 			return FALSE;
 		case GST_MESSAGE_EOS:
 			wxTheApp->CallAfter(&myApp::OnGStreamerEos);
