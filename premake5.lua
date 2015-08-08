@@ -46,6 +46,7 @@ solution "Twitchler"
 			links "curl"
 
 		filter "system:windows"
+			files "*.rc"
 			defines { "WXUSINGDLL", "wxMSVC_VERSION_AUTO", "_CRT_SECURE_NO_WARNINGS", "WXMAKINGDLL_JSON", "WXMAKINGDLL_WXCURL" }
 			includedirs { "C:/wxWidgets/include/msvc", "C:/wxWidgets/include" }
 			includedirs { "C:/GStreamer/1.0/x86/include/gstreamer-1.0", "C:/GStreamer/1.0/x86/include/glib-2.0" }

@@ -67,6 +67,10 @@ myFrame::myFrame()
 	m_panel->Fit();
 	
 	Fit();
+
+#ifdef __WXMSW__
+	SetIcon(wxIcon("APPICON"));
+#endif
 }
 
 myFrame::~myFrame()
