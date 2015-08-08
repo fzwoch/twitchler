@@ -25,6 +25,7 @@ cp $PLUGINS_DIR/libgstfragmented.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstlibav.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstmpegtsdemux.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstopengl.so $DST_DIR/.
+cp $PLUGINS_DIR/libgstosxaudio.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstosxvideosink.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstplayback.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstsouphttpsrc.so $DST_DIR/.
