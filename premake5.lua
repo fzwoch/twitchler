@@ -59,6 +59,7 @@ solution "Twitchler"
 			buildoptions "-x objective-c++"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
 			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0`" }
+			linkoptions "-headerpad_max_install_names"
 
 		filter "system:linux"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0`" }
