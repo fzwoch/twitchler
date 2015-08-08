@@ -21,6 +21,10 @@
 #include "app.h"
 #include <gst/video/videooverlay.h>
 
+#ifdef __APPLE__
+#import <Foundation/Foundation.h>
+#endif
+
 static gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 {
 	GError *err = NULL;
@@ -51,9 +55,10 @@ GStreamer::GStreamer()
 {
 #ifdef _WIN32
 	g_setenv("GST_PLUGIN_SYSTEM_PATH", "gstreamer-1.0", TRUE);
-#else
 #endif
-	
+#ifdef __APPLE__
+	g_setenv("GST_PLUGIN_SYSTEM_PATH", [[[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Frameworks/gstreamer-1.0"] UTF8String], TRUE);
+#endif
 	gst_registry_fork_set_enabled(FALSE);
 	gst_init(NULL, NULL);
 }

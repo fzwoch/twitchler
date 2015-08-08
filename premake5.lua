@@ -56,6 +56,7 @@ solution "Twitchler"
 			links { "libcurldll.lib" }
 
 		filter "system:macosx"
+			buildoptions "-x objective-c++"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
 			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0`" }
 
