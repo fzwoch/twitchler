@@ -91,14 +91,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 		return;
 	}
 	
-	if (parser.Parse(wxString(buffer), &json) > 0)
-	{
-		free(buffer);
-		
-		wxLogError("Could not parse JSON stream information for channel '" + channel + "'");
-		return;
-	}
-	
+	parser.Parse(wxString(buffer), &json);
 	free(buffer);
 	
 	if (json["stream"].IsNull())
@@ -115,14 +108,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 		return;
 	}
 	
-	if (parser.Parse(wxString(buffer), &json) > 0)
-	{
-		free(buffer);
-		
-		wxLogError("Could not parse JSON access token for channel '" + channel + "'");
-		return;
-	}
-	
+	parser.Parse(wxString(buffer), &json);
 	free(buffer);
 	
 	random = wxString::Format("%d", rand() % 999999);
