@@ -62,6 +62,7 @@ cp twitchler.icns Twitchler.app/Contents/Resources/.
 /usr/libexec/PlistBuddy -c "Add :CFBundleName string \"Twitchler\"" Twitchler.app/Contents/Info.plist > /dev/null
 /usr/libexec/PlistBuddy -c "Add :CFBundleExecutable string \"twitchler\"" Twitchler.app/Contents/Info.plist
 /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string \"zwoch.florian.twitchler\"" Twitchler.app/Contents/Info.plist
+/usr/libexec/PlistBuddy -c "Add :NSHighResolutionCapable bool YES" Twitchler.app/Contents/Info.plist
 /usr/libexec/PlistBuddy -c 'Add :CFBundleIconFile string "twitchler.icns"' Twitchler.app/Contents/Info.plist
 
 sh fixbundle.sh Twitchler.app `find Twitchler.app/Contents/Frameworks/gstreamer-1.0/ -iname \*.so`
