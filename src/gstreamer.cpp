@@ -54,6 +54,7 @@ static GstBusSyncReply bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 GStreamer::GStreamer()
 	: m_pipeline(NULL)
 {
+	g_setenv("LC_ALL", "en_US.UTF-8", TRUE);
 #ifdef _WIN32
 	g_setenv("GST_PLUGIN_SYSTEM_PATH", "gstreamer-1.0", TRUE);
 #endif
