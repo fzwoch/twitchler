@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #endif
 
-static gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
+static GstBusSyncReply bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 {
 	GError *err = NULL;
 	
@@ -35,19 +35,20 @@ static gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 			gst_message_parse_warning(msg, &err, NULL);
 			wxLogWarning("%s", err->message);
 			g_error_free(err);
-			return TRUE;
+			break;
 		case GST_MESSAGE_ERROR:
+			gst_bus_set_sync_handler(bus, NULL, NULL, NULL);
 			gst_message_parse_error(msg, &err, NULL);
 			wxTheApp->CallAfter(&myApp::OnGStreamerError, err);
-			return FALSE;
+			break;
 		case GST_MESSAGE_EOS:
 			wxTheApp->CallAfter(&myApp::OnGStreamerEos);
-			return FALSE;
+			break;
 		default:
 			break;
 	}
 	
-	return TRUE;
+	return GST_BUS_DROP;
 }
 
 GStreamer::GStreamer()
@@ -106,7 +107,7 @@ bool GStreamer::StartStream(wxString url, guintptr window_id, int bitrate, gdoub
 	gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(m_pipeline), window_id);
 	
 	bus = gst_pipeline_get_bus(GST_PIPELINE(m_pipeline));
-	gst_bus_add_watch (bus, bus_callback, NULL);
+	gst_bus_set_sync_handler(bus, bus_callback, NULL, NULL);
 	gst_object_unref(bus);
 	
 	gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
