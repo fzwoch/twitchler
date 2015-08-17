@@ -57,11 +57,21 @@ solution "Twitchler"
 			links { "libcurldll.lib" }
 
 		filter "system:macosx"
-			buildoptions "-x objective-c++"
-			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0`" }
-			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0`" }
-			linkoptions "-headerpad_max_install_names"
+			local wx_config_cflags = os.outputof("wx-config --cflags")
+			local wx_config_libs = os.outputof("wx-config --libs")
+
+			local pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0")
+			local pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0")
+
+			buildoptions { (wx_config_cflags), (pkg_config_cflags), "-x objective-c++" }
+			linkoptions { (wx_config_libs), (pkg_config_libs), "-headerpad_max_install_names" }
 
 		filter "system:linux"
-			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0`" }
-			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0`" }
+			local wx_config_cflags = os.outputof("wx-config --cflags")
+			local wx_config_libs = os.outputof("wx-config --libs")
+
+			local pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
+			local pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
+
+			buildoptions { (wx_config_cflags), (pkg_config_cflags) }
+			linkoptions { (wx_config_libs), (pkg_config_libs) }

@@ -27,10 +27,10 @@
 #undef MAX
 #endif
 
-#include <wx/curl/http.h>
+#include "wx/curl/http.h"
 
 #include <wx/protocol/http.h>
-#include <wx/jsonreader.h>
+#include "wx/jsonreader.h"
 
 #ifdef __WXGTK__
 #include <gtk/gtk.h>
