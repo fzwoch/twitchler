@@ -42,6 +42,7 @@ myFrame::myFrame()
 	m_volume->SetToolTip("Volume");
 	
 	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
+	m_panel->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
 	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp());
 	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp());
