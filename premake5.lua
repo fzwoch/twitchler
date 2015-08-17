@@ -42,6 +42,27 @@ solution "Twitchler"
 		files { "src/**.cpp", "include/**.h" }
 		includedirs "include"
 
+		local wx_config_cflags
+		local wx_config_libs
+		local pkg_config_cflags
+		local pkg_config_libs
+
+		if (os.get() == "macosx") then
+			wx_config_cflags = os.outputof("wx-config --cflags")
+			wx_config_libs = os.outputof("wx-config --libs")
+
+			pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0")
+			pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0")
+		end
+
+		if (os.get() == "linux") then
+			wx_config_cflags = os.outputof("wx-config --cflags")
+			wx_config_libs = os.outputof("wx-config --libs")
+
+			pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
+			pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
+		end
+
 		filter "not system:windows"
 			links "curl"
 
@@ -57,21 +78,9 @@ solution "Twitchler"
 			links { "libcurldll.lib" }
 
 		filter "system:macosx"
-			local wx_config_cflags = os.outputof("wx-config --cflags")
-			local wx_config_libs = os.outputof("wx-config --libs")
-
-			local pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0")
-			local pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0")
-
 			buildoptions { (wx_config_cflags), (pkg_config_cflags), "-x objective-c++" }
 			linkoptions { (wx_config_libs), (pkg_config_libs), "-headerpad_max_install_names" }
 
 		filter "system:linux"
-			local wx_config_cflags = os.outputof("wx-config --cflags")
-			local wx_config_libs = os.outputof("wx-config --libs")
-
-			local pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
-			local pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gtk+-2.0")
-
 			buildoptions { (wx_config_cflags), (pkg_config_cflags) }
 			linkoptions { (wx_config_libs), (pkg_config_libs) }
