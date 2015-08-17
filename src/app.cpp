@@ -28,8 +28,6 @@
 #endif
 
 #include "wx/curl/http.h"
-
-#include <wx/protocol/http.h>
 #include "wx/jsonreader.h"
 
 #ifdef __WXGTK__
