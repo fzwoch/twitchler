@@ -75,7 +75,7 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	wxString random;
 	wxString token;
 	
-	wxString channel = m_frame->GetChannelName();
+	wxString channel = m_frame->GetChannelName().Lower();
 	
 	if (channel.IsEmpty())
 	{
