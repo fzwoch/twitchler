@@ -32,19 +32,19 @@ myFrame::myFrame()
 	m_panel->SetBackgroundColour(wxColour(*wxBLACK));
 	m_video->SetBackgroundColour(wxColour(*wxBLACK));
 	
-	m_url = new wxTextCtrl(m_control, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	m_url = new wxTextCtrl(m_control, wxID_ANY);
 	m_bitrate = new wxSpinCtrl(m_control, wxID_ANY, "0", wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT | wxTE_PROCESS_ENTER, 0, 4000, 0);
 	m_start = new wxButton(m_control, wxID_ANY, "Start");
 	m_volume = new wxSlider(m_control, wxID_ANY, 1000, 0, 1000, wxDefaultPosition, wxSize(180, -1));
 	
 	m_url->SetHint("Twitch channel name you want to view");
 	m_bitrate->SetToolTip("Bandwidth limit in kbps (0 = no limit)");
+	m_start->SetDefault();
 	m_volume->SetToolTip("Volume");
 	
 	Bind(wxEVT_CLOSE_WINDOW, &myApp::OnCloseEvent, wxGetApp());
 	m_panel->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
 	m_video->Bind(wxEVT_LEFT_DCLICK, &myFrame::OnToggleFullScreen, this);
-	m_url->Bind(wxEVT_TEXT_ENTER, &myApp::OnGetStreamingUrl, wxGetApp());
 	m_start->Bind(wxEVT_BUTTON, &myApp::OnGetStreamingUrl, wxGetApp());
 	m_volume->Bind(wxEVT_SCROLL_THUMBTRACK, &myApp::OnVolumeSlider, wxGetApp());
 	m_volume->Bind(wxEVT_SCROLL_CHANGED, &myApp::OnVolumeSlider, wxGetApp());
