@@ -30,7 +30,8 @@ myFrame::myFrame()
 	
 	m_control->SetBackgroundColour(m_panel->GetBackgroundColour());
 	m_panel->SetBackgroundColour(wxColour(*wxBLACK));
-	m_video->SetBackgroundColour(wxColour(*wxBLACK));
+	
+	m_control->SetFocus();
 	
 	m_url = new wxTextCtrl(m_control, wxID_ANY);
 	m_bitrate = new wxSpinCtrl(m_control, wxID_ANY, "0", wxDefaultPosition, wxSize(100, -1), wxSP_ARROW_KEYS | wxALIGN_RIGHT | wxTE_PROCESS_ENTER, 0, 4000, 0);
