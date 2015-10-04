@@ -19,20 +19,12 @@
 
 #include "app.h"
 
-#ifdef MIN
-#undef MIN
-#endif
-
-#ifdef MAX
-#undef MAX
-#endif
-
-#include "wx/curl/http.h"
-#include "wx/jsonreader.h"
+#include <libsoup/soup.h>
+#include <json-glib/json-glib.h>
 
 #ifdef __WXGTK__
-#include <gtk/gtk.h>
-#include <gdk/gdkx.h>
+	#include <gtk/gtk.h>
+	#include <gdk/gdkx.h>
 #endif
 
 bool myApp::OnInit()
@@ -40,10 +32,6 @@ bool myApp::OnInit()
 	m_frame = new myFrame();
 	
 	m_frame->Show();
-	
-	srand(time(NULL));
-	
-	wxCurlBase::Init();
 	
 	return true;
 }
@@ -65,13 +53,13 @@ int myApp::FilterEvent(wxEvent &event)
 
 void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 {
-	wxCurlHTTP http_info;
-	wxCurlHTTP http;
-	char *buffer;
-	wxJSONReader parser;
-	wxJSONValue json;
-	wxString random;
-	wxString token;
+	SoupSession *http;
+	SoupMessage *http_msg;
+	JsonParser *parser;
+	JsonReader *reader;
+	char *random;
+	char *token;
+	const char *sig;
 	
 	wxString channel = m_frame->GetChannelName().Lower();
 	
@@ -81,50 +69,77 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 		return;
 	}
 	
-	http_info.Get(buffer, "https://api.twitch.tv/kraken/streams/" + channel);
+	http = soup_session_new_with_options(SOUP_SESSION_TIMEOUT, 5, NULL);
+	http_msg = soup_message_new("GET", "https://api.twitch.tv/kraken/streams/" + channel);
 	
-	if (http_info.GetResponseCode() != 200)
+	if (soup_session_send_message(http, http_msg) != 200)
 	{
+		g_object_unref(http);
+		g_object_unref(http_msg);
+		
 		wxLogError("Could not retrieve stream information for channel '" + channel + "'");
 		return;
 	}
 	
-	parser.Parse(wxString(buffer), &json);
-	free(buffer);
+	parser = json_parser_new();
 	
-	if (json["stream"].IsNull())
+	json_parser_load_from_data(parser, http_msg->response_body->data, -1, NULL);
+	reader = json_reader_new(json_parser_get_root(parser));
+	
+	if (json_reader_read_member(reader, "stream") == FALSE)
 	{
+		g_object_unref(reader);
+		g_object_unref(parser);
+		
+		g_object_unref(http);
+		g_object_unref(http_msg);
+		
 		wxLogMessage("Channel '" + channel + "' is offline");
 		return;
 	}
 	
-	http.Get(buffer, "http://api.twitch.tv/api/channels/" + channel + "/access_token");
+	g_object_unref(reader);
+	g_object_unref(http_msg);
 	
-	if (http.GetResponseCode() != 200)
+	http_msg = soup_message_new("GET", "http://api.twitch.tv/api/channels/" + channel + "/access_token");
+	
+	if (soup_session_send_message(http, http_msg) != 200)
 	{
+		g_object_unref(parser);
+		
+		g_object_unref(http);
+		g_object_unref(http_msg);
+		
 		wxLogError("Could not get access token for channel '" + channel + "'");
 		return;
 	}
 	
-	parser.Parse(wxString(buffer), &json);
-	free(buffer);
+	json_parser_load_from_data(parser, http_msg->response_body->data, -1, NULL);
+	reader = json_reader_new(json_parser_get_root(parser));
 	
-	random = wxString::Format("%d", rand() % 999999);
-	token = json["token"].AsString();
+	json_reader_read_member(reader, "token");
+	token = g_uri_escape_string(json_reader_get_string_value(reader), NULL, TRUE);
+	json_reader_end_member(reader);
 	
-	token.Replace(":", "%3a");
-	token.Replace(",", "%2c");
-	token.Replace("\"", "%22");
-	token.Replace("{", "%7b");
-	token.Replace("}", "%7d");
-	
+	json_reader_read_member(reader, "sig");
+	sig = json_reader_get_string_value(reader);
+	json_reader_end_member(reader);
+
+	random = g_strdup_printf("%d", g_random_int_range(1, 99999999));
+
 #ifdef __WXGTK__
 	guintptr window_id = GDK_WINDOW_XID(gtk_widget_get_window(myFrame::FindWindowByName("video")->GetHandle()));
 #else
 	guintptr window_id = (guintptr)myFrame::FindWindowByName("video")->GetHandle();
 #endif
 	
-	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + json["sig"].AsString() + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);
+	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + sig + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);
+	
+	g_free(token);
+	g_free(random);
+	
+	g_object_unref(reader);
+	g_object_unref(parser);
 	
 	if (res == false)
 	{

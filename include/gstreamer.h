@@ -21,7 +21,6 @@
 #define __GSTREAMER_H__
 
 #include <gst/gst.h>
-#include <wx/wx.h>
 
 class GStreamer
 {
@@ -31,7 +30,7 @@ public:
 	GStreamer();
 	virtual ~GStreamer();
 	
-	bool StartStream(wxString url, guintptr window_id, int bitrate, gdouble volume);
+	bool StartStream(const char *url, guintptr window_id, int bitrate, gdouble volume);
 	void StopStream();
 	
 	void SetVolume(gdouble volume);
