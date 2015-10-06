@@ -83,7 +83,7 @@ bool GStreamer::StartStream(const char *url, guintptr window_id, int bitrate, gd
 		StopStream();
 	}
 	
-	g_string_append_printf(description, "playbin uri=\"%s\" connection-speed=%d volume=%f", url, bitrate, volume);
+	g_string_printf(description, "playbin uri=\"%s\" connection-speed=%d volume=%f", url, bitrate, volume);
 	
 #ifdef __WXOSX__
 	/* as of writing, current gstreamer 1.5.2 still has a bug in the glimagesink implementation
