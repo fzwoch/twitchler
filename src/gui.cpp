@@ -30,6 +30,7 @@ myFrame::myFrame()
 	
 	m_control->SetBackgroundColour(m_panel->GetBackgroundColour());
 	m_panel->SetBackgroundColour(wxColour(*wxBLACK));
+	m_video->SetBackgroundColour(wxColour(*wxBLACK));
 	
 	m_control->SetFocus();
 	
