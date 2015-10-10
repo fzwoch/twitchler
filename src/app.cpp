@@ -104,6 +104,9 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	
 	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + sig + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);
 	
+	g_object_unref(http);
+	g_object_unref(http_msg);
+	
 	g_free(token);
 	g_free(random);
 	
