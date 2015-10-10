@@ -70,49 +70,18 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	}
 	
 	http = soup_session_new_with_options(SOUP_SESSION_TIMEOUT, 5, NULL);
-	http_msg = soup_message_new("GET", "https://api.twitch.tv/kraken/streams/" + channel);
-	
-	if (soup_session_send_message(http, http_msg) != 200)
-	{
-		g_object_unref(http);
-		g_object_unref(http_msg);
-		
-		wxLogError("Could not retrieve stream information for channel '" + channel + "'");
-		return;
-	}
-	
-	parser = json_parser_new();
-	
-	json_parser_load_from_data(parser, http_msg->response_body->data, -1, NULL);
-	reader = json_reader_new(json_parser_get_root(parser));
-	
-	if (json_reader_read_member(reader, "stream") == FALSE)
-	{
-		g_object_unref(reader);
-		g_object_unref(parser);
-		
-		g_object_unref(http);
-		g_object_unref(http_msg);
-		
-		wxLogMessage("Channel '" + channel + "' is offline");
-		return;
-	}
-	
-	g_object_unref(reader);
-	g_object_unref(http_msg);
-	
 	http_msg = soup_message_new("GET", "http://api.twitch.tv/api/channels/" + channel + "/access_token");
 	
 	if (soup_session_send_message(http, http_msg) != 200)
 	{
-		g_object_unref(parser);
-		
 		g_object_unref(http);
 		g_object_unref(http_msg);
 		
 		wxLogError("Could not get access token for channel '" + channel + "'");
 		return;
 	}
+	
+	parser = json_parser_new();
 	
 	json_parser_load_from_data(parser, http_msg->response_body->data, -1, NULL);
 	reader = json_reader_new(json_parser_get_root(parser));

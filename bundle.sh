@@ -27,7 +27,7 @@ cp bin/release/twitchler Twitchler.app/Contents/MacOS/.
 
 mkdir -p Twitchler.app/Contents/Frameworks/gstreamer-1.0
 
-TMP=`gst-inspect-1.0 coreelements | grep Filename | awk '{print $2}'`
+TMP=`/Library/Frameworks/GStreamer.framework/Commands/gst-inspect-1.0 coreelements | grep Filename | awk '{print $2}'`
 PLUGINS_DIR=`dirname $TMP`
 DST_DIR=Twitchler.app/Contents/Frameworks/gstreamer-1.0
 

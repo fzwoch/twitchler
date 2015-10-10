@@ -51,8 +51,8 @@ solution "Twitchler"
 			wx_config_cflags = os.outputof("wx-config --cflags")
 			wx_config_libs = os.outputof("wx-config --libs")
 
-			pkg_config_cflags = os.outputof("pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0")
-			pkg_config_libs = os.outputof("pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0")
+			pkg_config_cflags = os.outputof("PKG_CONFIG_DIR=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0")
+			pkg_config_libs = os.outputof("PKG_CONFIG_DIR=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0")
 		end
 
 		if (os.get() == "linux") then
