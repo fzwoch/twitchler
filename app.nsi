@@ -33,6 +33,7 @@ Section
 	File "LICENSE"
 
 	File "c:\msys64\mingw64\bin\libstdc++-6.dll"
+	File "c:\msys64\mingw64\bin\libgcc_s_seh-1.dll"
 
 	File "c:\msys64\mingw64\bin\wxbase30u_gcc_custom.dll"
 	File "c:\msys64\mingw64\bin\wxmsw30u_core_gcc_custom.dll"
@@ -55,6 +56,7 @@ Section
 	File "c:\gstreamer\1.0\x86_64\bin\libgstbase-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstcodecparsers-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstgl-1.0-0.dll"
+	File "c:\gstreamer\1.0\x86_64\bin\libgstnet-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstmpegts-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstpbutils-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstreamer-1.0-0.dll"
