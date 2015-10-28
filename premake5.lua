@@ -39,6 +39,8 @@ solution "Twitchler"
 		filter "system:macosx"
 			buildoptions { "`wx-config --cflags`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`", "-x objective-c++" }
 			linkoptions { "`wx-config --libs`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`", "-headerpad_max_install_names" }
+			linkoptions "-mmacosx-version-min=10.9"
+			buildoptions "-mmacosx-version-min=10.9"
 
 		filter "system:linux"
 			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0 gtk+-2.0`" }
