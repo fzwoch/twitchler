@@ -19,6 +19,7 @@
 
 #include "gui.h"
 #include "app.h"
+#include <wx/config.h>
 
 myFrame::myFrame()
 	: wxFrame(NULL, wxID_ANY, "Twitchler")
@@ -70,6 +71,12 @@ myFrame::myFrame()
 	m_panel->Fit();
 	
 	Fit();
+	
+	wxConfig config("Twitchler");
+	
+	m_url->SetValue(config.Read("url", ""));
+	m_bitrate->SetValue(config.ReadLong("bitrate", 0));
+	m_volume->SetValue(config.ReadLong("volume", m_volume->GetMax()));
 
 #ifdef __WXMSW__
 	SetIcon(wxIcon("APPICON"));
@@ -78,6 +85,11 @@ myFrame::myFrame()
 
 myFrame::~myFrame()
 {
+	wxConfig config("Twitchler");
+	
+	config.Write("url", m_url->GetValue());
+	config.Write("bitrate", m_bitrate->GetValue());
+	config.Write("volume", m_volume->GetValue());
 }
 
 wxString myFrame::GetChannelName()
