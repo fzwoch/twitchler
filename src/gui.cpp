@@ -24,6 +24,10 @@
 myFrame::myFrame()
 	: wxFrame(NULL, wxID_ANY, "Twitchler")
 {
+	wxMenuBar *menubar = new wxMenuBar();
+	
+	SetMenuBar(menubar);
+	
 	m_panel = new wxPanel(this);
 	
 	m_video = new wxPanel(m_panel, wxID_ANY, wxDefaultPosition, wxSize(960, 540), wxTAB_TRAVERSAL, "video");
