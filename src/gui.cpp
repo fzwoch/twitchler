@@ -111,7 +111,7 @@ int myFrame::GetVolume()
 	return m_volume->GetValue();
 }
 
-void myFrame::OnToggleFullScreen(wxEvent &event)
+void myFrame::OnToggleFullScreen(wxMouseEvent &event)
 {
 	if (IsFullScreen())
 	{

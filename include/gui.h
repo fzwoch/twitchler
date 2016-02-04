@@ -40,7 +40,7 @@ public:
 	wxString GetChannelName();
 	int GetBitrate();
 	int GetVolume();
-	void OnToggleFullScreen(wxEvent &event);
+	void OnToggleFullScreen(wxMouseEvent &event);
 };
 
 #endif // __GUI_H__

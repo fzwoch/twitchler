@@ -42,7 +42,9 @@ int myApp::FilterEvent(wxEvent &event)
 	{
 		if (m_frame->IsFullScreen())
 		{
-			m_frame->OnToggleFullScreen(event);
+			wxMouseEvent mouse_event;
+			
+			m_frame->OnToggleFullScreen(mouse_event);
 		}
 		
 		return true;
