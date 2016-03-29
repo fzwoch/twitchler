@@ -39,7 +39,7 @@ cp $PLUGINS_DIR/libgstcoreelements.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstdashdemux.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstdeinterlace.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstfaad.so $DST_DIR/.
-cp $PLUGINS_DIR/libgstfragmented.so $DST_DIR/.
+cp $PLUGINS_DIR/libgsthls.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstlibav.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstmpegtsdemux.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstopengl.so $DST_DIR/.
