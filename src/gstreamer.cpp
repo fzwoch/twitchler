@@ -85,13 +85,6 @@ bool GStreamer::StartStream(const char *url, guintptr window_id, int bitrate, gd
 	
 	g_string_printf(description, "playbin uri=\"%s\" connection-speed=%d volume=%f", url, bitrate, volume);
 	
-#ifdef __WXOSX__
-	/* as of writing, current gstreamer 1.5.2 still has a bug in the glimagesink implementation
-	 * causing opengl crashes when trying to resize the window after the first stream.
-	 * forcing osxvideosink instead. */
-	g_string_append(description, " video-sink=osxvideosink");
-#endif
-	
 	m_pipeline = gst_parse_launch(description->str, &err);
 	
 	g_string_free(description, TRUE);
