@@ -33,7 +33,7 @@ static GstBusSyncReply bus_callback(GstBus *bus, GstMessage *msg, gpointer data)
 	{
 		case GST_MESSAGE_WARNING:
 			gst_message_parse_warning(msg, &err, NULL);
-			wxLogWarning("%s", err->message);
+			g_warning("%s", err->message);
 			g_error_free(err);
 			break;
 		case GST_MESSAGE_ERROR:
