@@ -25,6 +25,16 @@
 #import <Foundation/Foundation.h>
 #endif
 
+static void on_end_of_stream(GstPlayer *player, gpointer user_data)
+{
+	wxTheApp->CallAfter(&myApp::OnGStreamerEos);
+}
+
+static void on_error(GstPlayer *player, GError *err, gpointer user_data)
+{
+	wxTheApp->CallAfter(&myApp::OnGStreamerError, err);
+}
+
 GStreamer::GStreamer()
 	: m_player(NULL)
 {
@@ -54,6 +64,9 @@ bool GStreamer::StartStream(const char *url, gpointer window_id, int bitrate, gd
 	}
 
 	m_player = gst_player_new(gst_player_video_overlay_video_renderer_new((gpointer)window_id), NULL);
+
+	g_signal_connect(m_player, "end-of-stream", G_CALLBACK(on_end_of_stream), NULL);
+	g_signal_connect(m_player, "error", G_CALLBACK(on_error), NULL);
 
 	gst_player_set_uri(m_player, url);
 	gst_player_set_volume(m_player, volume);
