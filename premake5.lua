@@ -43,11 +43,11 @@ solution "Twitchler"
 			buildoptions "-mmacosx-version-min=10.8"
 
 		filter "system:linux"
-			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0 gtk+-2.0`" }
-			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0 gtk+-2.0`" }
+			buildoptions { "`wx-config --cflags`", "`pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0 gtk+-2.0`" }
+			linkoptions { "`wx-config --libs`", "`pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0 gtk+-2.0`" }
 
 		filter "system:windows"
 			files "*.rc"
 			resincludedirs "/mingw64/include/wx-3.0"
-			buildoptions { "`wx-config --cflags`", "`PKG_CONFIG_PATH=/c/gstreamer/1.0/x86_64/lib/pkgconfig pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`" }
-			linkoptions { "`wx-config --libs`", "`PKG_CONFIG_PATH=/c/gstreamer/1.0/x86_64/lib/pkgconfig pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`", "-static-libgcc", "-static-libstdc++" }
+			buildoptions { "`wx-config --cflags`", "`PKG_CONFIG_PATH=/c/gstreamer/1.0/x86_64/lib/pkgconfig pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0`" }
+			linkoptions { "`wx-config --libs`", "`PKG_CONFIG_PATH=/c/gstreamer/1.0/x86_64/lib/pkgconfig pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0`", "-static-libgcc", "-static-libstdc++" }

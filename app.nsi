@@ -59,6 +59,7 @@ Section
 	File "c:\gstreamer\1.0\x86_64\bin\libgstnet-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstmpegts-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstpbutils-1.0-0.dll"
+	File "c:\gstreamer\1.0\x86_64\bin\libgstplayer-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgstreamer-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgsttag-1.0-0.dll"
 	File "c:\gstreamer\1.0\x86_64\bin\libgsturidownloader-1.0-0.dll"
