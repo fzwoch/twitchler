@@ -99,9 +99,9 @@ void myApp::OnGetStreamingUrl(wxCommandEvent &event)
 	random = g_strdup_printf("%d", g_random_int_range(1, 99999999));
 
 #ifdef __WXGTK__
-	guintptr window_id = GDK_WINDOW_XID(gtk_widget_get_window(myFrame::FindWindowByName("video")->GetHandle()));
+	gpointer window_id = GDK_WINDOW_XID(gtk_widget_get_window(myFrame::FindWindowByName("video")->GetHandle()));
 #else
-	guintptr window_id = (guintptr)myFrame::FindWindowByName("video")->GetHandle();
+	gpointer window_id = myFrame::FindWindowByName("video")->GetHandle();
 #endif
 	
 	bool res = m_gstreamer.StartStream("http://usher.twitch.tv/api/channel/hls/" + channel + ".m3u8?player=twitchweb&token=" + token + "&sig=" + sig + "&allow_audio_only=true&allow_source=true&type=any&p=" + random, window_id, m_frame->GetBitrate(), m_frame->GetVolume() / 1000.0);

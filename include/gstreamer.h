@@ -21,16 +21,17 @@
 #define __GSTREAMER_H__
 
 #include <gst/gst.h>
+#include <gst/player/gstplayer.h>
 
 class GStreamer
 {
-	GstElement *m_pipeline;
+	GstPlayer *m_player;
 	
 public:
 	GStreamer();
 	virtual ~GStreamer();
 	
-	bool StartStream(const char *url, guintptr window_id, int bitrate, gdouble volume);
+	bool StartStream(const char *url, gpointer window_id, int bitrate, gdouble volume);
 	void StopStream();
 	
 	void SetVolume(gdouble volume);

@@ -37,8 +37,8 @@ solution "Twitchler"
 		includedirs "include"
 
 		filter "system:macosx"
-			buildoptions { "`wx-config --cflags`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`", "-x objective-c++" }
-			linkoptions { "`wx-config --libs`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 libsoup-2.4 json-glib-1.0`", "-headerpad_max_install_names" }
+			buildoptions { "`wx-config --cflags`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --cflags gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0`", "-x objective-c++" }
+			linkoptions { "`wx-config --libs`", "`PKG_CONFIG_PATH=/Library/Frameworks/GStreamer.framework/Libraries/pkgconfig/ pkg-config --libs gstreamer-1.0 gstreamer-video-1.0 gstreamer-player-1.0 libsoup-2.4 json-glib-1.0`", "-headerpad_max_install_names" }
 			linkoptions "-mmacosx-version-min=10.8"
 			buildoptions "-mmacosx-version-min=10.8"
 
