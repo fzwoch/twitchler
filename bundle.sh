@@ -33,6 +33,7 @@ DST_DIR=Twitchler.app/Contents/Frameworks/gstreamer-1.0
 
 cp $PLUGINS_DIR/libgstapplemedia.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstaudioconvert.so $DST_DIR/.
+cp $PLUGINS_DIR/libgstaudiofx.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstaudioparsers.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstaudioresample.so $DST_DIR/.
 cp $PLUGINS_DIR/libgstcoreelements.so $DST_DIR/.
