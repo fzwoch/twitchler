@@ -33,12 +33,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	func handleGetURLEvent(event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
-		let url = NSURL(string: event.paramDescriptorForKeyword(AEKeyword(keyDirectObject))!.stringValue!)
-		let data = NSData(contentsOfURL: NSURL(string: "http://api.twitch.tv/api/channels/" + url!.host!.lowercaseString + "/access_token")!)
+		let url = NSURL(string: event.paramDescriptorForKeyword(AEKeyword(keyDirectObject))!.stringValue!.lowercaseString)
+		let data = NSData(contentsOfURL: NSURL(string: "http://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
 
 		do {
 			let token = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions())
-			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host!.lowercaseString + ".m3u8?player=twitchweb&token=" + (token["token"] as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=0"
+			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"] as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=0"
 			let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
 			quicktime.openURL!(playlist.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
 		} catch {
