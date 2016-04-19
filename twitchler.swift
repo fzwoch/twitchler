@@ -39,9 +39,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		do {
 			let token = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions())
 			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"] as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=0"
-			let quicktime = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
-			quicktime.activate()
-			(quicktime as QuickTimePlayerX).openURL!(playlist.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
+			let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
+			quicktime.openURL!(playlist.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
 		} catch {
 		}
 	}
@@ -50,7 +49,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 let app = NSApplication.sharedApplication()
 let delegate = AppDelegate()
 
-app.setActivationPolicy(.Regular)
-app.activateIgnoringOtherApps(true)
 app.delegate = delegate
 app.run()
