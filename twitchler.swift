@@ -34,13 +34,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		app.mainMenu = NSMenu()
 		app.mainMenu!.addItemWithTitle("Application", action: nil, keyEquivalent: "")
 
-		let mincer_menu = NSMenu()
-		mincer_menu.title = "Twitchler"
-		mincer_menu.addItemWithTitle("About Twitchler", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
-		mincer_menu.addItem(NSMenuItem.separatorItem())
-		mincer_menu.addItemWithTitle("Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+		let twitchler_menu = NSMenu()
+		twitchler_menu.title = "Twitchler"
+		twitchler_menu.addItemWithTitle("About Twitchler", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+		twitchler_menu.addItem(NSMenuItem.separatorItem())
+		twitchler_menu.addItemWithTitle("Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
 
-		app.mainMenu!.itemWithTitle("Application")!.submenu = mincer_menu
+		app.mainMenu!.itemWithTitle("Application")!.submenu = twitchler_menu
 	}
 
 	func handleGetURLEvent(event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
