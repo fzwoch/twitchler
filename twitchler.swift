@@ -30,6 +30,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationWillFinishLaunching(notification: NSNotification) {
 		let manager = NSAppleEventManager.sharedAppleEventManager()
 		manager.setEventHandler(self, andSelector: #selector(handleGetURLEvent(_:replyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+
+		app.mainMenu = NSMenu()
+		app.mainMenu!.addItemWithTitle("Application", action: nil, keyEquivalent: "")
+
+		let mincer_menu = NSMenu()
+		mincer_menu.title = "Twitchler"
+		mincer_menu.addItemWithTitle("About Twitchler", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+		mincer_menu.addItem(NSMenuItem.separatorItem())
+		mincer_menu.addItemWithTitle("Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+
+		app.mainMenu!.itemWithTitle("Application")!.submenu = mincer_menu
 	}
 
 	func handleGetURLEvent(event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
