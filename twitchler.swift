@@ -21,45 +21,45 @@ import Cocoa
 import ScriptingBridge
 
 @objc protocol QuickTimePlayerX {
-	optional func openURL(url: String) -> Void
+	@objc optional func openURL(_ url: String) -> Void
 }
 
 extension SBApplication : QuickTimePlayerX {}
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-	func applicationWillFinishLaunching(notification: NSNotification) {
-		let manager = NSAppleEventManager.sharedAppleEventManager()
+	func applicationWillFinishLaunching(_ notification: Notification) {
+		let manager = NSAppleEventManager.shared()
 		manager.setEventHandler(self, andSelector: #selector(handleGetURLEvent(_:replyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
 
 		app.mainMenu = NSMenu()
-		app.mainMenu!.addItemWithTitle("Application", action: nil, keyEquivalent: "")
+		app.mainMenu!.addItem(withTitle: "Application", action: nil, keyEquivalent: "")
 
 		let menu = NSMenu()
 		menu.title = "Twitchler"
-		menu.addItemWithTitle("About Twitchler", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
-		menu.addItem(NSMenuItem.separatorItem())
-		menu.addItemWithTitle("Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+		menu.addItem(withTitle: "About Twitchler", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+		menu.addItem(NSMenuItem.separator())
+		menu.addItem(withTitle: "Quit", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
 
-		app.mainMenu!.itemWithTitle("Application")!.submenu = menu
+		app.mainMenu!.item(withTitle: "Application")!.submenu = menu
 	}
 
-	func handleGetURLEvent(event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
-		let url = NSURL(string: event.paramDescriptorForKeyword(AEKeyword(keyDirectObject))!.stringValue!.lowercaseString)
-		let data = NSData(contentsOfURL: NSURL(string: "http://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
+	func handleGetURLEvent(_ event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
+		let url = URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!.lowercased())
+		let data = try? Data(contentsOf: URL(string: "http://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
 
 		do {
-			let token = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions())
-			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"] as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
+			let token = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions()) as! [String:Any]
+			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"]  as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
 			let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
 			let app: SBApplication = quicktime as! SBApplication
 			app.activate()
-			quicktime.openURL!(playlist.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!)
+			quicktime.openURL!(playlist.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
 		} catch {
 		}
 	}
 }
 
-let app = NSApplication.sharedApplication()
+let app = NSApplication.shared()
 let delegate = AppDelegate()
 
 app.delegate = delegate
