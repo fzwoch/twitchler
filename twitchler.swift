@@ -1,7 +1,7 @@
 /*
  * Twitchler
  *
- * Copyright (C) 2016 Florian Zwoch <fzwoch@gmail.com>
+ * Copyright (C) 2016-2017 Florian Zwoch <fzwoch@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,17 +45,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func handleGetURLEvent(_ event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
 		let url = URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!.lowercased())
-		let data = try? Data(contentsOf: URL(string: "http://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
-
-		do {
-			let token = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions()) as! [String:Any]
-			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"]  as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
-			let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
-			let app: SBApplication = quicktime as! SBApplication
-			app.activate()
-			quicktime.openURL!(playlist.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
-		} catch {
-		}
+		var request = URLRequest(url: URL(string: "http://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
+		request.addValue("7ikopbkspr7556owm9krqmalvr2w0i4", forHTTPHeaderField: "Client-ID")
+		var response: URLResponse?
+		let data = try! NSURLConnection.sendSynchronousRequest(request, returning: &response)
+		let token = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as! [String:Any]
+		let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"]  as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
+		let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
+		let app: SBApplication = quicktime as! SBApplication
+		app.activate()
+		quicktime.openURL!(playlist.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
 	}
 }
 

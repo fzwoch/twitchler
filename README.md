@@ -8,12 +8,6 @@ This app acts as a simple bridge between Twitch streams and Apple's QuickTime
 Player X application. It registers a custom twitch:// protocol. To run a stream
 just enter a URL into your browser of choice (e.g. twitch://&lt;channelname&gt;).
 
-Note
-====
-
-As of August 8th, 2016 Twitch requires some client id headers to be send to make
-this thing work. I won't fix it. 
-
 Credits
 -------
 
