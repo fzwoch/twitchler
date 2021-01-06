@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
 		let url = URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!.lowercased())
 		var request = URLRequest(url: URL(string: "https://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
-		request.addValue("7ikopbkspr7556owm9krqmalvr2w0i4", forHTTPHeaderField: "Client-ID")
+		request.addValue("kimne78kx3ncx6brgo4mv6wki5h1ko", forHTTPHeaderField: "Client-ID")
 		var response: URLResponse?
 		let data = try! NSURLConnection.sendSynchronousRequest(request, returning: &response)
 		let token = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as! [String:Any]
