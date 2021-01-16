@@ -43,7 +43,7 @@ all:
 	/usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes array" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string twitch" Twitchler.app/Contents/Info.plist
 
-	ditto -c -k --keepParent --arch x86_64 Twitchler.app twitchler.zip
+	ditto -c -k --keepParent --arch x86_64 --arch arm64 Twitchler.app twitchler.zip
 
 clean:
 	rm -rf Twitchler.app twitchler.zip
