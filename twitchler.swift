@@ -45,16 +45,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	@objc func handleGetURLEvent(_ event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) -> Void {
 		let url = URL(string: event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))!.stringValue!.lowercased())
-		var request = URLRequest(url: URL(string: "https://api.twitch.tv/api/channels/" + url!.host! + "/access_token")!)
+		var request = URLRequest(url: URL(string: "https://gql.twitch.tv/gql")!)
+		request.httpMethod = "POST";
 		request.addValue("kimne78kx3ncx6brgo4mv6wki5h1ko", forHTTPHeaderField: "Client-ID")
-		var response: URLResponse?
-		let data = try! NSURLConnection.sendSynchronousRequest(request, returning: &response)
-		let token = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as! [String:Any]
-		let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (token["token"]  as! String) + "&sig=" + (token["sig"] as! String) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
-		let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
-		let app: SBApplication = quicktime as! SBApplication
-		app.activate()
-		quicktime.openURL!(playlist.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type");
+		let json = "{\"operationName\": \"PlaybackAccessToken\",\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}},\"variables\": {\"isLive\": true,\"login\": \"" + url!.host! + "\",\"isVod\": false,\"vodID\": \"\",\"playerType\": \"embed\"}}";
+		let task = URLSession.shared.uploadTask(with: request, from: Data(json.utf8)) { data, response, error in
+			struct X : Decodable {
+				struct XX : Decodable {
+					struct XXX : Decodable {
+						let signature:String
+						let value:String
+					}
+					let streamPlaybackAccessToken:XXX
+				}
+				let data:XX
+			}
+			let json = try! JSONDecoder().decode(X.self, from: data!)
+			let playlist: String = "http://usher.twitch.tv/api/channel/hls/" + url!.host! + ".m3u8?player=twitchweb&token=" + (json.data.streamPlaybackAccessToken.value) + "&sig=" + (json.data.streamPlaybackAccessToken.signature) + "&allow_audio_only=true&allow_source=true&type=any&p=" + String(arc4random_uniform(99999999))
+			let quicktime: QuickTimePlayerX = SBApplication(bundleIdentifier: "com.apple.QuickTimePlayerX")!;
+			let app: SBApplication = quicktime as! SBApplication
+			app.activate()
+			quicktime.openURL!(playlist.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
+		}
+		task.resume();
 	}
 }
 

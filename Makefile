@@ -1,7 +1,7 @@
 #
 # Twitchler
 #
-# Copyright (C) 2016-2017 Florian Zwoch <fzwoch@gmail.com>
+# Copyright (C) 2016-2021 Florian Zwoch <fzwoch@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ all:
 	/usr/libexec/PlistBuddy -c "Add :NSHighResolutionCapable bool YES" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c 'Add :CFBundleIconFile string "twitchler.icns"' Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string \"0.4\"" Twitchler.app/Contents/Info.plist
-	/usr/libexec/PlistBuddy -c 'Add :NSHumanReadableCopyright string © 2016-2017 Florian Zwoch' Twitchler.app/Contents/Info.plist
+	/usr/libexec/PlistBuddy -c 'Add :NSHumanReadableCopyright string © 2016-2021 Florian Zwoch' Twitchler.app/Contents/Info.plist
 
 	/usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity:NSAllowsArbitraryLoads bool YES" Twitchler.app/Contents/Info.plist
