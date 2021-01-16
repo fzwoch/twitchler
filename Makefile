@@ -22,7 +22,6 @@ all:
 	mkdir -p Twitchler.app/Contents/Resources
 	cp twitchler.icns Twitchler.app/Contents/Resources/twitchler.icns
 	swiftc -sdk $(shell xcrun --show-sdk-path --sdk macosx) twitchler.swift -o Twitchler.app/Contents/MacOS/twitchler
-	strip -x Twitchler.app/Contents/MacOS/twitchler
 
 	rm -f Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c "Add :CFBundleName string \"Twitchler\"" Twitchler.app/Contents/Info.plist
