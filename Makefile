@@ -31,7 +31,7 @@ all:
 	/usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string \"zwoch.florian.twitchler\"" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c "Add :NSHighResolutionCapable bool YES" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c 'Add :CFBundleIconFile string "twitchler.icns"' Twitchler.app/Contents/Info.plist
-	/usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string \"0.4\"" Twitchler.app/Contents/Info.plist
+	/usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string \"0.5\"" Twitchler.app/Contents/Info.plist
 	/usr/libexec/PlistBuddy -c 'Add :NSHumanReadableCopyright string © 2016-2021 Florian Zwoch' Twitchler.app/Contents/Info.plist
 
 	/usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" Twitchler.app/Contents/Info.plist
